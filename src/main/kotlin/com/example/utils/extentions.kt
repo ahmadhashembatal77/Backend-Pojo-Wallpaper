@@ -83,8 +83,8 @@ suspend fun <T> PipelineContext<*, ApplicationCall>.handelExceptionsForListRespo
 }
 
 private suspend fun <T> PipelineContext<*, ApplicationCall>.handelHeaderForList() {
-    val header: String? = call.request.headers["pojo_api_key"]
-    if (header != "XxGg1j2l3ks&*&53GLghL") {
+    val header: String? = call.request.headers[""]
+    if (header != "") {
         val errorResponse = BaseResponse.EmptyListResponse<T>(
             status = false,
             message = "Not Found Right Header:-)",
@@ -96,8 +96,8 @@ private suspend fun <T> PipelineContext<*, ApplicationCall>.handelHeaderForList(
 }
 
 private suspend fun PipelineContext<*, ApplicationCall>.handelHeader() {
-    val header: String? = call.request.headers["pojo_api_key"]
-    if (header != "XxGg1j2l3ks&*&53GLghL") {
+    val header: String? = call.request.headers[""]
+    if (header != "") {
         val errorResponse: BaseResponse.SuccessResponse<Boolean> = BaseResponse.SuccessResponse(
             status = false,
             message = "Not Found Right Header:-)",
