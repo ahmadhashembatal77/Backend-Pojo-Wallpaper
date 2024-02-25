@@ -18,8 +18,8 @@ val mainModule = module {
         Database.connect(
                 url = Constants.DATABASE_URL,
                 driver = Constants.DATABASE_DRIVER,
-                user = System.getenv("dbname") ?: "pojo_user_database",
-                password = System.getenv("dbpassword") ?: "HrnPurZE4XtnrKjHW7B4wHJmSZiwZgIx",
+                user = System.getenv("") ?: "",
+                password = System.getenv("") ?: "",
                 dialect = PostgreSqlDialect()
         )
     }
