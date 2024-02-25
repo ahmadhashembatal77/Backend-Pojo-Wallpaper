@@ -22,7 +22,7 @@ fun main() {
 fun Application.module() {
     install(Koin) { modules(mainModule) }
     install(DefaultHeaders){
-        header("pojo_api_key","XxGg1j2l3ks&*&53GLghL")
+        header("","")
     }
     install(MicrometerMetrics)
 
@@ -30,7 +30,7 @@ fun Application.module() {
         issuer = ISSUER,
         audience = AUDIENCE,
         expiresIn = 365L * 1000L * 60L * 60L * 24L,
-        secret = System.getenv("JWT_SECRET")
+        secret = System.getenv("")
     )
 
     configureSecurity(tokenConfig)
