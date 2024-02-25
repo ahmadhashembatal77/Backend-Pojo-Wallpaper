@@ -1,0 +1,65 @@
+version: '3.9'
+
+services:
+  postgres-sandbox:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_DB=pojo_database_name_9bol
+      - POSTGRES_USER=pojo_user_database
+      - POSTGRES_PASSWORD=HrnPurZE4XtnrKjHW7B4wHJmSZiwZgIx
+      - POSTGRES_HOST=dpg-cmsde1icn0vc73bgfpm0-a
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -h $$POSTGRES_HOST -u $$POSTGRES_USER -p $$POSTGRES_PASSWORD
+      timeout: 30s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 64M
+    depends_on:
+      - postgres-sandbox
+    environment:
+      - ENVIRONMENT=dev
+    restart: always
+    ports:
+      - "3510:3500"
+
+  prometheus:
+    image: prom/prometheus
+    restart: always
+    ports:
+      - "3570:9090"
+    volumes:
+      - ./monitoring:/etc/prometheus/
+    depends_on:
+      - backend
+      - postgres-sandbox
+
+  grafana:
+    image: grafana/grafana-oss:9.3.6
+    ports:
+      - "3000:3000"
+    user: "472"
+    volumes:
+      - ./monitoring/grafana:/var/lib/grafana
+    depends_on:
+      - backend
+      - prometheus
+      - postgres-sandbox
+
+volumes:
+  postgres_data:
